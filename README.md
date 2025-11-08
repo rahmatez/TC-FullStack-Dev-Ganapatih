@@ -70,7 +70,7 @@ docker-compose up -d
 > **Status:** Deployed to production
 
 - **Frontend:** [https://tc-full-stack-dev-ganapatih.vercel.app](https://tc-full-stack-dev-ganapatih.vercel.app/)
-- **Backend API:** [https://rahmatez-tc-fullstack-dev-ganapatih-production.up.railway.app/api](https://rahmatez-tc-fullstack-dev-production.up.railway.app/api)
+- **Backend API:** [https://rahmatez-tc-fullstack-dev-ganapatih-production.up.railway.app/](https://rahmatez-tc-fullstack-dev-ganapatih-production.up.railway.app/api)
 
 **Test Account:**
 - Username: `demo`

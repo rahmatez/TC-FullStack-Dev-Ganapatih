@@ -57,7 +57,7 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
       {/* Glow Effect on Hover */}
       <div className={`absolute -inset-0.5 bg-gradient-to-r ${getGradientColors(post.username)} rounded-2xl blur opacity-0 group-hover:opacity-20 transition duration-500`} />
       
-      <div className="relative bg-white rounded-2xl shadow-soft hover:shadow-soft-lg p-6 mb-4 transition-all duration-300 border border-gray-100">
+      <div className="relative bg-white rounded-2xl shadow-md hover:shadow-xl p-6 transition-all duration-300 border border-gray-100 hover:border-primary-100">
         <div className="flex items-start space-x-4">
           {/* Avatar */}
           <motion.div
@@ -80,7 +80,7 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
           {/* Content */}
           <div className="flex-1 min-w-0">
             {/* Header */}
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-3">
               <div>
                 <h3 className="text-base font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
                   @{post.username}
@@ -89,7 +89,7 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span>{getRelativeTime(post.createdAt)}</span>
+                  <time dateTime={post.createdAt}>{getRelativeTime(post.createdAt)}</time>
                 </div>
               </div>
 
@@ -110,7 +110,7 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-gray-800 leading-relaxed text-base break-words"
+              className="text-gray-800 leading-relaxed text-base break-words mb-4"
             >
               {post.content}
             </motion.p>
@@ -120,11 +120,13 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="flex items-center space-x-6 mt-4 pt-3 border-t border-gray-100"
+              className="flex items-center space-x-6 pt-3 border-t border-gray-100"
+              role="group"
+              aria-label="Post interactions"
             >
-              <InteractionButton icon="heart" count={0} />
-              <InteractionButton icon="comment" count={0} />
-              <InteractionButton icon="share" count={0} />
+              <InteractionButton icon="heart" count={0} label="Like" />
+              <InteractionButton icon="comment" count={0} label="Comment" />
+              <InteractionButton icon="share" count={0} label="Share" />
             </motion.div>
           </div>
         </div>
@@ -136,9 +138,10 @@ export default function PostCard({ post, index = 0 }: PostCardProps) {
 interface InteractionButtonProps {
   icon: 'heart' | 'comment' | 'share';
   count: number;
+  label: string;
 }
 
-function InteractionButton({ icon, count }: InteractionButtonProps) {
+function InteractionButton({ icon, count, label }: InteractionButtonProps) {
   const [isActive, setIsActive] = useState(false);
 
   const icons = {
@@ -169,6 +172,8 @@ function InteractionButton({ icon, count }: InteractionButtonProps) {
           ? 'text-primary-600 bg-primary-50' 
           : 'text-gray-500 hover:text-primary-600 hover:bg-gray-50'
       }`}
+      aria-label={label}
+      aria-pressed={isActive}
     >
       {icons[icon]}
       {count > 0 && <span className="text-sm font-medium">{count}</span>}

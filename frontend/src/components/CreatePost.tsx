@@ -15,11 +15,13 @@ interface CreatePostProps {
 }
 
 export default function CreatePost({ onPostCreated }: CreatePostProps) {
-  const [charCount, setCharCount] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
-  const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting } } = useForm<PostFormData>();
+  const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting } } = useForm<PostFormData>({
+    defaultValues: { content: '' }
+  });
 
   const content = watch('content', '');
+  const charCount = content.length;
 
   const onSubmit = async (data: PostFormData) => {
     try {
@@ -34,7 +36,6 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
         },
       });
       reset();
-      setCharCount(0);
       if (onPostCreated) {
         onPostCreated();
       }
@@ -97,7 +98,6 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary-500 transition-all duration-300 resize-none bg-gray-50 focus:bg-white"
                 rows={4}
                 placeholder="What's on your mind? ✨"
-                onChange={(e) => setCharCount(e.target.value.length)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 disabled={isSubmitting}

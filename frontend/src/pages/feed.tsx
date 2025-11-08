@@ -84,28 +84,28 @@ function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-primary-50/20">
       <Navbar />
       
-      <div className="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8"
+          className="mb-6"
         >
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 via-primary-700 to-primary-600 bg-clip-text text-transparent">
                 Your Feed
               </h1>
-              <p className="text-gray-600 mt-1">Discover what&apos;s happening</p>
+              <p className="text-gray-600 mt-2 text-sm sm:text-base">Discover what&apos;s happening with people you follow</p>
             </div>
             <motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-              className="text-4xl"
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+              className="text-3xl sm:text-4xl"
             >
             </motion.div>
           </div>
@@ -122,20 +122,24 @@ function FeedPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-20"
+              className="space-y-4"
             >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full mb-4"
-              />
-              <motion.p
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="text-gray-600 font-medium"
-              >
-                Loading your feed...
-              </motion.p>
+              {/* Skeleton Loading Cards */}
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-soft p-6 animate-pulse">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 rounded-2xl bg-gray-200" />
+                    <div className="flex-1 space-y-3">
+                      <div className="h-4 bg-gray-200 rounded w-1/4" />
+                      <div className="h-3 bg-gray-100 rounded w-1/6" />
+                      <div className="space-y-2 mt-4">
+                        <div className="h-3 bg-gray-200 rounded w-full" />
+                        <div className="h-3 bg-gray-200 rounded w-5/6" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </motion.div>
           ) : posts.length === 0 ? (
             <motion.div
@@ -161,7 +165,7 @@ function FeedPage() {
                   }}
                   className="mb-6"
                 >
-                  <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                  <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center shadow-lg">
                     <svg
                       className="w-12 h-12 text-primary-600"
                       fill="none"
@@ -179,7 +183,7 @@ function FeedPage() {
                 </motion.div>
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">Your feed is empty</h3>
-                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                <p className="text-gray-600 mb-6 max-w-md mx-auto leading-relaxed">
                   Start following other users to see their posts in your personalized feed!
                 </p>
 
@@ -187,12 +191,12 @@ function FeedPage() {
                   onClick={() => router.push('/people')}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+                  className="inline-flex items-center space-x-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
-                  <span>Find Users</span>
+                  <span>Discover People</span>
                 </motion.button>
               </div>
             </motion.div>
@@ -204,7 +208,7 @@ function FeedPage() {
               exit={{ opacity: 0 }}
             >
               {/* Posts List */}
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {posts.map((post, index) => (
                   <PostCard key={post.id} post={post} index={index} />
                 ))}
@@ -216,7 +220,7 @@ function FeedPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="flex justify-center items-center space-x-4 mt-8"
+                  className="flex justify-center items-center space-x-4 mt-10"
                 >
                   <motion.button
                     whileHover={{ scale: page === 1 ? 1 : 1.05 }}
@@ -226,8 +230,9 @@ function FeedPage() {
                     className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
                       page === 1
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-gray-700 shadow-soft hover:shadow-soft-lg border border-gray-200'
+                        : 'bg-white text-gray-700 shadow-md hover:shadow-lg border border-gray-200 hover:border-primary-300'
                     }`}
+                    aria-label="Previous page"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -236,7 +241,7 @@ function FeedPage() {
                   </motion.button>
 
                   <div className="flex items-center space-x-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold shadow-lg">
-                    <span>Page</span>
+                    <span className="text-sm">Page</span>
                     <span className="text-xl">{page}</span>
                   </div>
 
@@ -248,8 +253,9 @@ function FeedPage() {
                     className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all ${
                       !hasMore
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-gray-700 shadow-soft hover:shadow-soft-lg border border-gray-200'
+                        : 'bg-white text-gray-700 shadow-md hover:shadow-lg border border-gray-200 hover:border-primary-300'
                     }`}
+                    aria-label="Next page"
                   >
                     <span>Next</span>
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

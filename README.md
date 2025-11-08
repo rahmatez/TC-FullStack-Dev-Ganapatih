@@ -1,4 +1,4 @@
-# 📰 Simple News Feed System
+# 📰 Simple News Feed System Ganapatih
 
 A full-stack social media application similar to Twitter, built with **Next.js**, **Express**, and **PostgreSQL**.
 
@@ -34,7 +34,7 @@ A full-stack social media application similar to Twitter, built with **Next.js**
 **1. Clone the repository**
 ```bash
 git clone https://github.com/rahmatez/TC-FullStack-Dev-Ganapatih.git
-cd newsfeed-system
+cd TC-FullStack-Dev-Ganapatih
 ```
 
 **2. Setup Backend**
@@ -57,7 +57,7 @@ npm run dev
 
 **4. Access the application**
 - Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
+- Backend API: http://localhost:5000/api
 
 ### Using Docker (Recommended)
 
@@ -69,8 +69,8 @@ docker-compose up -d
 
 > **Status:** Deployed to production
 
-- **Frontend:** [https://your-app.vercel.app](https://your-app.vercel.app) _(Update after deployment)_
-- **Backend API:** [https://your-backend.railway.app](https://your-backend.railway.app) _(Update after deployment)_
+- **Frontend:** [https://tc-full-stack-dev-ganapatih.vercel.app](https://tc-full-stack-dev-ganapatih.vercel.app/)
+- **Backend API:** [https://rahmatez-tc-fullstack-dev-production.up.railway.app/api](https://rahmatez-tc-fullstack-dev-production.up.railway.app/api)
 
 **Test Account:**
 - Username: `demo`
@@ -85,11 +85,20 @@ docker-compose up -d
 | POST | `/api/register` | Register new user |
 | POST | `/api/login` | Login user |
 | POST | `/api/refresh` | Refresh JWT token |
+| GET | `/health` | Health check |
 | POST | `/api/posts` | Create post (auth required) |
+| GET | `/api/posts/:postId` | Get post by ID |
+| GET | `/api/posts/user/me` | Get authenticated user posts |
+| GET | `/api/users` | List users with follow status |
+| GET | `/api/users/me` | Get current user profile |
+| GET | `/api/users/:userId` | Get user profile by ID |
+| GET | `/api/users/:userId/posts` | Get posts by user ID |
 | GET | `/api/feed` | Get personalized feed |
 | POST | `/api/follow/:userId` | Follow user |
-| DELETE | `/api/unfollow/:userId` | Unfollow user |
-| GET | `/api/users/:userId` | Get user profile |
+| DELETE | `/api/follow/:userId` | Unfollow user |
+| GET | `/api/follow/check/:userId` | Check follow relationship |
+| GET | `/api/follow/followers/:userId` | List followers with count |
+| GET | `/api/follow/following/:userId` | List following with count |
 
 <details>
 <summary><b>View detailed API documentation</b></summary>
@@ -140,6 +149,168 @@ Content-Type: application/json
 ```http
 GET /api/feed?page=1&limit=10
 Authorization: Bearer {token}
+```
+
+### Posts
+
+**Get Post by ID**
+```http
+GET /api/posts/{postId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "id": 42,
+  "userId": 3,
+  "username": "alice",
+  "content": "Hello world!",
+  "createdAt": "2025-09-12T10:00:00.000Z"
+}
+```
+
+**Get My Posts**
+```http
+GET /api/posts/user/me?page=1&limit=10
+Authorization: Bearer {token}
+
+Response:
+{
+  "page": 1,
+  "posts": [
+    {
+      "id": 9,
+      "userId": 1,
+      "username": "demo",
+      "content": "Sample content",
+      "createdAt": "2025-09-12T08:30:00.000Z"
+    }
+  ]
+}
+```
+
+### Users
+
+**List Users**
+```http
+GET /api/users
+Authorization: Bearer {token}
+
+Response:
+[
+  {
+    "id": 2,
+    "username": "alice",
+    "createdAt": "2025-09-10T12:00:00.000Z",
+    "isFollowing": true
+  }
+]
+```
+
+**Get Current User**
+```http
+GET /api/users/me
+Authorization: Bearer {token}
+
+Response:
+{
+  "id": 1,
+  "username": "demo",
+  "created_at": "2025-09-09T11:00:00.000Z"
+}
+```
+
+**Get User Posts**
+```http
+GET /api/users/{userId}/posts?page=1&limit=10
+Authorization: Bearer {token}
+
+Response:
+[
+  {
+    "id": 17,
+    "user_id": 2,
+    "username": "alice",
+    "content": "Another update",
+    "created_at": "2025-09-12T09:45:00.000Z"
+  }
+]
+```
+
+### Follow System
+
+**Follow User**
+```http
+POST /api/follow/{userId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "message": "You are now following user 2"
+}
+```
+
+**Unfollow User**
+```http
+DELETE /api/follow/{userId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "message": "You unfollowed user 2"
+}
+```
+
+**Check Follow Status**
+```http
+GET /api/follow/check/{userId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "isFollowing": true
+}
+```
+
+**List Followers**
+```http
+GET /api/follow/followers/{userId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "count": 2,
+  "followers": [
+    { "id": 5, "username": "bob", "followed_at": "2025-09-12T08:00:00.000Z" }
+  ]
+}
+```
+
+**List Following**
+```http
+GET /api/follow/following/{userId}
+Authorization: Bearer {token}
+
+Response:
+{
+  "count": 1,
+  "following": [
+    { "id": 2, "username": "alice", "followed_at": "2025-09-12T08:00:00.000Z" }
+  ]
+}
+```
+
+### Utilities
+
+**Health Check**
+```http
+GET /health
+
+Response:
+{
+  "status": "OK",
+  "message": "News Feed API is running",
+  "timestamp": "2025-09-12T10:00:00.000Z"
+}
 ```
 
 </details>
@@ -220,9 +391,9 @@ cd frontend && npm test
 
 <table>
   <tr>
-    <td><img src="readme/login.png" alt="Login" width="300"/><br/><b>Login Page</b></td>
-    <td><img src="readme/feed.png" alt="Feed" width="300"/><br/><b>News Feed</b></td>
-    <td><img src="readme/profile.png" alt="Profile" width="300"/><br/><b>User Profile</b></td>
+    <td><img src="documentation/image1.png" alt="Login" width="300"/><br/><b>Login Page</b></td>
+    <td><img src="documentation/image2.png" alt="Feed" width="300"/><br/><b>News Feed</b></td>
+    <td><img src="documentation/image3.png" alt="Profile" width="300"/><br/><b>User Profile</b></td>
   </tr>
 </table>
 
@@ -314,8 +485,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Built as a technical challenge for **PT Ganapatih**
 
-- **GitHub:** [@yourusername](https://github.com/yourusername)
-- **Email:** your.email@example.com
+- **GitHub:** [@rahmatez](https://github.com/rahmatez)
+- **Email:** rahmatezdev@gmail.com
 
 ## 🙏 Acknowledgments
 
@@ -329,8 +500,8 @@ Built as a technical challenge for **PT Ganapatih**
 
 **⭐ If you like this project, please give it a star! ⭐**
 
-Made with ❤️ for PT Ganapatih Technical Challenge
+Made with for PT Ganapatih Technical Challenge
 
-[Report Bug](https://github.com/yourusername/newsfeed-system/issues) • [Request Feature](https://github.com/yourusername/newsfeed-system/issues)
+[Report Bug](https://github.com/rahmatez/TC-FullStack-Dev-Ganapatih/issues) • [Request Feature](https://github.com/rahmatez/TC-FullStack-Dev-Ganapatih/issues)
 
 </div>

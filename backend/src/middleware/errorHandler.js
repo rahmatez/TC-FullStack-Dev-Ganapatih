@@ -1,7 +1,7 @@
 const errorHandler = (err, req, res, next) => {
   // Only log errors in non-test environment
   if (process.env.NODE_ENV !== 'test') {
-    console.error('Error:', err);
+    // Intentionally skip noisy console logging in production-like environments
   }
 
   // JWT errors

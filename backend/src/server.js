@@ -4,10 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-console.log('🚀 Starting News Feed API...');
-console.log('📝 Environment:', process.env.NODE_ENV || 'development');
-console.log('🔌 Database:', process.env.DB_HOST || 'not configured');
-console.log('🔧 PORT from env:', process.env.PORT);
 
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
@@ -20,7 +16,6 @@ const app = express();
 // Parse PORT as integer to ensure it's a number
 const PORT = parseInt(process.env.PORT) || 5000;
 
-console.log('🎯 Using PORT:', PORT);
 
 // Security middleware
 app.use(helmet());
@@ -28,20 +23,23 @@ app.use(helmet());
 // CORS configuration - Support multiple origins
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://127.0.0.1:3000',
   'https://tc-full-stack-dev-ganapatih.vercel.app',
   process.env.CORS_ORIGIN
-].filter(Boolean);
+].filter(Boolean).map(origin => origin.replace(/\/$/, ''));
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.some(allowed => origin.startsWith(allowed.replace(/\/$/, '')))) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+
+    const normalizedOrigin = origin.replace(/\/$/, '');
+  const isLocalhost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin);
+
+    if (allowedOrigins.includes(normalizedOrigin) || isLocalhost) {
+      return callback(null, true);
     }
+
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
@@ -99,10 +97,6 @@ if (process.env.NODE_ENV !== 'test') {
   }
   
   app.listen(PORT, HOST, () => {
-    console.log(`✅ Server is running on ${HOST}:${PORT}`);
-    console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔗 Public URL: https://rahmatez-tc-fullstack-dev-production.up.railway.app`);
-    console.log(`🔗 Health check: http://localhost:${PORT}/health`);
   });
 }
 

@@ -70,11 +70,11 @@ docker-compose up -d
 > **Status:** Deployed to production
 
 - **Frontend:** [https://tc-full-stack-dev-ganapatih.vercel.app](https://tc-full-stack-dev-ganapatih.vercel.app/)
-- **Backend API:** [https://rahmatez-tc-fullstack-dev-production.up.railway.app/api](https://rahmatez-tc-fullstack-dev-production.up.railway.app/api)
+- **Backend API:** [https://rahmatez-tc-fullstack-dev-ganapatih-production.up.railway.app/api](https://rahmatez-tc-fullstack-dev-production.up.railway.app/api)
 
 **Test Account:**
 - Username: `demo`
-- Password: `demo123`
+- Password: `password123`
 
 📖 **Deployment Guide:** See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
@@ -436,11 +436,11 @@ npm start
 
 ## 📚 Documentation
 
-- 📖 [API Documentation](API_DOCUMENTATION.md)
-- 🔧 [Setup Guide](SETUP_GUIDE.md)
-- 📋 [Database Design](DATABASE_DESIGN.md)
+- 📖 [API Documentation](documentation/API_DOCUMENTATION.md)
+- 🔧 [Setup Guide](documentation/SETUP_GUIDE.md)
+- 📋 [Database Design](documentation/DATABASE_DESIGN.md)
 - 🧪 [Testing Guide](backend/TESTING.md)
-- 🚀 [Deployment Guide](DEPLOYMENT.md)
+- 🚀 [Deployment Guide](documentation/DEPLOYMENT.md)
 
 ## 🎯 Features Checklist
 
